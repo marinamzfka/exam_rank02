@@ -1,21 +1,9 @@
 /*
-
-Assignment name  : rostring
-Expected files   : rostring.c
-Allowed functions: write, malloc, free
---------------------------------------------------------------------------------
-
-Write a program that takes a string and displays this string after rotating it
-one word to the left.
-
-Thus, the first word becomes the last, and others stay in the same order.
-
-A "word" is defined as a part of a string delimited either by spaces/tabs, or
-by the start/end of the string.
-
-Words will be separated by only one space in the output.
-
-If there's less than one argument, the program displays \n.
+** ENGLISH: Rotate string left by one word (first word moves to end)
+** RUSSIAN: При - тир строки влево х одно слово (первое слово в конец)
+**
+** Пример: "Que la lumiere" → "la lumiere Que"
+*/
 
 Example:
 

@@ -15,18 +15,24 @@ char    *ft_strrev(char *str);
 
 */
 
-#include <stdio.h>
+char	*ft_strrev(char *str)
+{
+    int		left;
+    int		right;
+    char	tmp;
 
-char    *ft_strrev(char *str) {
-    char tmp;
-    int len = -1;
-    int i = -1;
-    while(str[++len]);
-    while(len/2 > ++i) {
-        tmp = str[i];
-        str[i] = str[len-1];
-        str[len-1] = tmp;
-        len--;
+    right = 0;
+    while (str[right])
+        right++;
+    right--;
+    left = 0;
+    while (left < right)
+    {
+        tmp = str[left];
+        str[left] = str[right];
+        str[right] = tmp;
+        left++;
+        right--;
     }
-    return str;
+    return (str);
 }

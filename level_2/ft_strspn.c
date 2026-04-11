@@ -14,25 +14,32 @@ size_t	ft_strspn(const char *s, const char *accept);
 
 */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+#include <stddef.h>
 
-char	*ft_strchr(const char *s, int c)
+static int	is_in_accept(char c, const char *accept)
 {
-	while (*s) {
-		if (*s == c)   return ((char *)s);
-		++s;
+	int	i;
+
+	i = 0;
+	while (accept[i])
+	{
+		if (accept[i] == c)
+			return (1);
+		i++;
 	}
-	return 0;
+	return (0);
 }
 
 size_t	ft_strspn(const char *s, const char *accept)
 {
-	size_t i = -1;
+	size_t	i;
 
-	while (s[++i]) {
-		if (ft_strchr(accept, s[i]) == 0)	break;
+	i = 0;
+	while (s[i])
+	{
+		if (!is_in_accept(s[i], accept))
+			break ;
+		i++;
 	}
-	return i;
+	return (i);
 }

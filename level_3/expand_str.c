@@ -31,45 +31,38 @@ $>
 
 #include <unistd.h>
 
-int ft_is_space(char c) {
-    if (c == ' ' || (c >= 9 && c <= 13))
-        return 1;
-    return 0;
+int is_space(char c)
+{
+	return (c == ' ' || c == '\t');
 }
 
-int ft_strlen(char *s) {
-    int i = -1;
-    while (s[++i]);
-    return i;
-}
+int main(int ac, char **av)
+{
+	int i;
+	int first_word;
 
-int main(int ac, char **av) {
-    if (ac == 2) {
-        if (!*av[1])
-            return write(1, "\n", 1);
-        
-        while(ft_is_space(*av[1]))
-            av[1]++;
-        
-        int len = ft_strlen(av[1]);
-
-        while (ft_is_space(av[1][len]))
-            len--;
-        
-        int i = -1;
-        while (av[1][++i] && i < len + 1) {
-            if (!ft_is_space(av[1][i]))
-                write(1, &av[1][i], 1);
-            while(ft_is_space(av[1][i]) && i < len + 1) {
-                if (!ft_is_space(av[1][i+1]) && av[1][i+1]) {
-                    write(1, "   ", 3);
-                    break ;
-                }
-                i++;
-            }
-        }
-
-    }
-    write(1, "\n", 1);
-    return 0;
+	if (ac != 2)
+	{
+		write(1, "\n", 1);
+		return (0);
+	}
+	i = 0;
+	first_word = 1;
+	while (is_space(av[1][i]))
+		i++;
+	while (av[1][i])
+	{
+		if (!first_word)
+			write(1, "   ", 3);
+		while (av[1][i] && !is_space(av[1][i]))
+		{
+			write(1, &av[1][i], 1);
+			i++;
+		}
+		first_word = 0;
+		while (is_space(av[1][i]))
+			i++;
+	}
+	write(1, "\n", 1);
+	return (0);
 }

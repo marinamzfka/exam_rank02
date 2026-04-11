@@ -15,14 +15,24 @@ char    *ft_strdup(char *src);
 
 #include <stdlib.h>
 
-char *ft_strdup(char *src) {
-    char *dup;
-    int len = -1;
-    int i = -1;
-    while (src[++len]);
-    if(!(dup = malloc(sizeof(char *)*len+1))) return NULL;
-    while (src[++i])
+char	*ft_strdup(char *src)
+{
+    char	*dup;
+    int		len;
+    int		i;
+
+    len = 0;
+    while (src[len])
+        len++;
+    dup = (char *)malloc((len + 1) * sizeof(char));
+    if (!dup)
+        return (NULL);
+    i = 0;
+    while (src[i])
+    {
         dup[i] = src[i];
+        i++;
+    }
     dup[i] = '\0';
-    return dup;
+    return (dup);
 }

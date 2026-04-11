@@ -1,4 +1,4 @@
-Assignment name  : lcm
+/* Assignment name  : lcm
 Expected files   : lcm.c
 Allowed functions:
 --------------------------------------------------------------------------------
@@ -26,3 +26,24 @@ If at least one integer is null, LCM is equal to 0.
 Your function must be prototyped as follows:
 
   unsigned int    lcm(unsigned int a, unsigned int b);
+
+*/
+unsigned int	hcf(unsigned int a, unsigned int b)
+{
+	unsigned int	tmp;
+
+	while (b != 0)
+	{
+		tmp = a % b;
+		a = b;
+		b = tmp;
+	}
+	return (a);
+}
+
+unsigned int	lcm(unsigned int a, unsigned int b)
+{
+	if (a == 0 || b == 0)
+		return (0);
+	return ((a / hcf(a, b)) * b);
+}

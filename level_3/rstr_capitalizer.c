@@ -32,48 +32,78 @@ $>
 
 #include <unistd.h>
 
-int is_space(char c) {
-  if (c == ' ' || (c >= '\t' && c <= '\r'))
-    return 1;
-  return 0;
+int	is_space(char c)
+{
+	return (c == ' ' || c == '\t');
 }
 
-int is_alpha(char c) {
-  if (c >= 'a' && c <= 'z')
-    return 1;
-  return 0;
+int	is_alpha(char c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
-int is_upper(char c) {
-  if (c >= 'A' && c <= 'Z')
-    return 1;
-  return 0;
+void	process_string(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (str[i])
+	{
+		// Если текущий символ - это буква
+		if (is_alpha(str[i]))
+		{
+			// Ищем вперёд: есть ли ещё буквы в этом слове после current?
+			j = i + 1;
+			while (str[j] && !is_space(str[j]))
+			{
+				if (is_alpha(str[j]))  // Нашли букву впереди
+					break;
+				j++;
+			}
+			
+			// Если не нашли букву впереди (j указывает на пробел или конец)
+			// Значит текущая буква ПОСЛЕДНЯЯ в слове → капсим её
+			if (str[j] == '\0' || is_space(str[j]))
+			{
+				if (str[i] >= 'a' && str[i] <= 'z')
+					str[i] -= 32;  // a->A, b->B и т.д.
+			}
+			// Есть ещё буквы впереди → текущая не последняя → строчная
+			else
+			{
+				if (str[i] >= 'A' && str[i] <= 'Z')
+					str[i] += 32;  // A->a, B->b и т.д.
+			}
+		}
+		// Если не буква и не пробел → сделать строчным (на случай цифр, пунктуации)
+		else if (!is_space(str[i]))
+		{
+			if (str[i] >= 'A' && str[i] <= 'Z')
+				str[i] += 32;
+		}
+		
+		// Выводим символ
+		write(1, &str[i], 1);
+		i++;
+	}
 }
 
-char *to_lower(char *s) {
-  int i = -1;
-  while (s[++i]) {
-    if (is_upper(s[i]))
-      s[i] += 32;
-  }
-  return s;
-}
+int	main(int ac, char **av)
+{
+	int i;
 
-int main(int ac, char **av) {
-  if (ac > 1) {
-    int i = 0;
-    while (av[++i]) {
-      av[i] = to_lower(av[i]);
-      int j = -1;
-      while(av[i][++j]) {
-        if ((is_space(av[i][j + 1]) && is_alpha(av[i][j])) || (!av[i][j + 1] && is_alpha(av[i][j])))
-          av[i][j] -= 32;
-        write(1, &av[i][j], 1);
-      }
-      write(1, "\n", 1);
-    }
-  }
-  else
-    write(1, "\n", 1);
-  return 0;
+	if (ac > 1)
+	{
+		i = 1;
+		while (i < ac)
+		{
+			process_string(av[i]);
+			write(1, "\n", 1);
+			i++;
+		}
+	}
+	else
+		write(1, "\n", 1);
+	return (0);
 }

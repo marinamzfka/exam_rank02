@@ -23,36 +23,29 @@ Examples:
 */
 
 #include <stdlib.h>
-#include <stdio.h>
 
-int     *ft_range(int start, int end)
+int	*ft_range(int start, int end)
 {
-	int i = 0;
-  	int len = (end - start) + 1;
-	if (len < 0)
-		len *= -1;
-  	
-	int *res;
-  	res = (int *)malloc(sizeof(int) * len);
-  
-  	while (i < len) {
-		if (start < end) {
-			res[i] = start;
-			start++;
-			i++;
-		}
-  		else {
-    		res[i] = start;
-    		start--;
-    		i++;
-  		}
-  	}
-  	return (res);
-}
+	int	*res;
+	int	len;
+	int	i;
 
-int main() {
-    int *tab = ft_range(1, 8);
-    for (int i = 0; i >= 9; i++)
-        printf("%i\n", tab[i]);
-    return 0;
+	if (start > end)
+		len = start - end + 1;
+	else
+		len = end - start + 1;
+	res = (int *)malloc(sizeof(int) * len);
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		res[i] = start;
+		if (start < end)
+			start++;
+		else
+			start--;
+		i++;
+	}
+	return (res);
 }

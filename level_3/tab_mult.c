@@ -41,66 +41,57 @@ $>
 
 */
 
+/*
+** ENGLISH: Display multiplication table for a given number (1*n to 9*n)
+** RUSSIAN: Вывести таблицу умножения для числа (от 1*n до 9*n)
+*/
+
 #include <unistd.h>
+#include <stdlib.h>
 
-int is_space(char c) {
-    if (c == ' ' || c == '\t') return 1;
-    return 0;
+int	ft_atoi(char *s)
+{
+	int res;
+
+	res = 0;
+	while (*s >= '0' && *s <= '9')
+	{
+		res = res * 10 + (*s - '0');
+		s++;
+	}
+	return (res);
 }
 
-void ft_putnbr(int n) {
-    if (n == -2147483648) {
-        write(1, "-", 1);
-        write(1, "2", 1);
-        n = 147483648;
-    }
-    if (n < 0) {
-        write(1, "-", 1);
-        n *= -1;
-    }
-    if (n >= 10) {
-        ft_putnbr(n/10);
-        ft_putnbr(n%10);
-    }
-    else {
-        n += '0';
-        write(1, &n, 1);
-    }
+void	put_nbr(int n)
+{
+	char c;
+
+	if (n >= 10)
+		put_nbr(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
 }
 
-int ft_atoi(char *s) {
-    int res = 0;
-    int sign = 1;
-    int i = 0;
-    while (is_space(s[i]))
-        i++;
-    if(s[i] == '-')
-        sign = -1;
-    if (s[i] == '-' || s[i] == '+')
-        i++;
-    while(s[i] >= '0' && s[i] <= '9') {
-        res = res * 10 + s[i] - '0';
-        i++;
-    }
-    return res*sign;
-}
+int	main(int ac, char **av)
+{
+	int i;
+	int n;
 
-int main(int ac, char **av) {
-    if (ac == 2) {
-        if (!*av[1])
-            return write(1, "\n", 1);
-        int i = 0;
-        int n = ft_atoi(av[1]);
-        while (++i <= 9) {
-            ft_putnbr(i);
-            write(1, " x ", 3);
-            ft_putnbr(n);
-            write(1, " = ", 3);
-            ft_putnbr(i*n);
-            write(1, "\n", 1);
-        }
-    }
-    else 
-        write(1, "\n", 1);
-    return 0;
+	if (ac == 2)
+	{
+		n = ft_atoi(av[1]);
+		i = 0;
+		while (++i <= 9)
+		{
+			put_nbr(i);
+			write(1, " x ", 3);
+			put_nbr(n);
+			write(1, " = ", 3);
+			put_nbr(i * n);
+			write(1, "\n", 1);
+		}
+	}
+	else
+		write(1, "\n", 1);
+	return (0);
 }

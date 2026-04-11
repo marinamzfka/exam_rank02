@@ -25,10 +25,45 @@ int	ft_atoi_base(const char *str, int str_base);
 
 #define BASE "0123456789abcdef"
 
-int	ft_atoi_base(const char *str, int str_base) {
-    int res = 0;
-    int sign = 1;
-    if (str[0] == '-') sign = -1;
-        
-    return res*sign;
+int	char_to_val(char c)
+{
+    int i;
+
+    i = 0;
+    while (BASE[i])
+    {
+        if (BASE[i] == c || BASE[i] - 32 == c)
+            return (i);
+        i++;
+    }
+    return (-1);
+}
+
+int	ft_atoi_base(const char *str, int str_base)
+{
+    int res;
+    int sign;
+    int val;
+
+    if (!str || str_base < 2 || str_base > 16)
+        return (0);
+    while (*str == ' ' || (*str >= 9 && *str <= 13))
+        str++;
+    sign = 1;
+    if (*str == '-')
+    {
+        sign = -1;
+        str++;
+    }
+    else if (*str == '+')
+        str++;
+    res = 0;
+    val = char_to_val(*str);
+    while (val >= 0 && val < str_base)
+    {
+        res = res * str_base + val;
+        str++;
+        val = char_to_val(*str);
+    }
+    return (res * sign);
 }

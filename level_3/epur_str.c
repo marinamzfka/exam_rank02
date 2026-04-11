@@ -1,4 +1,4 @@
-Assignment name  : epur_str
+/* Assignment name  : epur_str
 Expected files   : epur_str.c
 Allowed functions: write
 --------------------------------------------------------------------------------
@@ -24,3 +24,39 @@ $
 $> ./epur_str "" | cat -e
 $
 $>
+
+*/
+
+
+#include <unistd.h>
+
+int main(int ac, char **av)
+{
+	int	i;
+	int	first_word;
+
+	if (ac != 2)
+	{
+		write(1, "\n", 1);
+		return (0);
+	}
+	i = 0;
+	first_word = 1;
+	while (av[1][i] == ' ' || av[1][i] == '\t')
+		i++;
+	while (av[1][i])
+	{
+		if (!first_word)
+			write(1, " ", 1);
+		while (av[1][i] && av[1][i] != ' ' && av[1][i] != '\t')
+		{
+			write(1, &av[1][i], 1);
+			i++;
+		}
+		first_word = 0;
+		while (av[1][i] == ' ' || av[1][i] == '\t')
+			i++;
+	}
+	write(1, "\n", 1);
+	return (0);
+}
