@@ -1,9 +1,22 @@
 /*
-** ENGLISH: Print words of a string in reverse order (last word first)
-** RUSSIAN: Отпечатать слова строки в обратном порядке (последнее слово первым)
-**
-** Пример: "You hate people" → "people hate You"
-*/
+
+Assignment name  : rev_wstr
+Expected files   : rev_wstr.c
+Allowed functions: write, malloc, free
+--------------------------------------------------------------------------------
+
+Write a program that takes a string as a parameter, and prints its words in
+reverse order.
+
+A "word" is a part of the string bounded by spaces and/or tabs, or the
+begin/end of the string.
+
+If the number of parameters is different from 1, the program will display
+'\n'.
+
+In the parameters that are going to be tested, there won't be any "additional"
+spaces (meaning that there won't be additionnal spaces at the beginning or at
+the end of the string, and words will always be separated by exactly one space).
 
 Examples:
 
@@ -16,6 +29,11 @@ Leviosa Wingardium$
 $> ./rev_wstr | cat -e
 $
 $>
+
+** ENGLISH: Print words of a string in reverse order (last word first)
+** RUSSIAN: Отпечатать слова строки в обратном порядке (последнее слово первым)
+**
+** Пример: "You hate people" → "people hate You"
 
 */
 

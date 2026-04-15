@@ -45,47 +45,48 @@ int	is_alpha(char c)
 void	process_string(char *str)
 {
 	int i;
+	int word_end;
+	int last_letter;
 	int j;
 
 	i = 0;
 	while (str[i])
 	{
-		// Если текущий символ - это буква
-		if (is_alpha(str[i]))
+		// Обрабатываем пробелы - печатаем их как есть
+		if (is_space(str[i]))
 		{
-			// Ищем вперёд: есть ли ещё буквы в этом слове после current?
-			j = i + 1;
-			while (str[j] && !is_space(str[j]))
-			{
-				if (is_alpha(str[j]))  // Нашли букву впереди
-					break;
-				j++;
-			}
-			
-			// Если не нашли букву впереди (j указывает на пробел или конец)
-			// Значит текущая буква ПОСЛЕДНЯЯ в слове → капсим её
-			if (str[j] == '\0' || is_space(str[j]))
-			{
-				if (str[i] >= 'a' && str[i] <= 'z')
-					str[i] -= 32;  // a->A, b->B и т.д.
-			}
-			// Есть ещё буквы впереди → текущая не последняя → строчная
-			else
-			{
-				if (str[i] >= 'A' && str[i] <= 'Z')
-					str[i] += 32;  // A->a, B->b и т.д.
-			}
+			write(1, &str[i], 1);
+			i++;
+			continue;
 		}
-		// Если не буква и не пробел → сделать строчным (на случай цифр, пунктуации)
-		else if (!is_space(str[i]))
+
+		// Начало слова - найдём его конец
+		word_end = i;
+		while (str[word_end] && !is_space(str[word_end]))
+			word_end++;
+		word_end--;
+
+		// Обработаем весь word
+		j = i;
+		while (j <= word_end)
 		{
-			if (str[i] >= 'A' && str[i] <= 'Z')
-				str[i] += 32;
+			if (j == word_end && is_alpha(str[j]))
+			{
+				// Последний символ и это БУКВА → капсим
+				if (str[j] >= 'a' && str[j] <= 'z')
+					str[j] -= 32;
+			}
+			else if (is_alpha(str[j]))
+			{
+				// Не последний и это БУКВА → строчная
+				if (str[j] >= 'A' && str[j] <= 'Z')
+					str[j] += 32;
+			}
+			write(1, &str[j], 1);
+			j++;
 		}
-		
-		// Выводим символ
-		write(1, &str[i], 1);
-		i++;
+
+		i = word_end + 1;
 	}
 }
 
